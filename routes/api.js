@@ -12,7 +12,11 @@ const decode = header => {
   if (type !== "Bearer" || !token) {
     return false;
   }
-  return jwt.verify(token, "secretKey");
+  try {
+    return jwt.verify(token, process.env.SECRET);
+  } catch {
+    return false;
+  }
 };
 
 router.get("/favourites", (req, res, next) => {
